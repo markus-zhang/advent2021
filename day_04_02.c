@@ -6,27 +6,16 @@
 
 typedef struct bingoBoard {
     int board[5][5];
+    bool won;
 } bingoBoard;
 
-typedef struct bingoNode {
-    int number;
-    struct bingoNode* next;
-} bingoNode;
-
-typedef struct bingoNodeHead {
-    int number;
-    struct bingoNode* next;
-    struct bingoNode* walker;
-} bingoNodeHead;
-
-// void updateTree(const char* line, int lineIndex, bingoNode* parentNode);
 bool bingoWon(const int[5][5]);
 void updateBoard(int number, int board[5][5]);
 int getScore(int number, const int board[5][5]);
 
 int main(int argc, char* argv[]) {
     if (argc <= 1) {
-        printf("Usage: day_04_01 textfilename");
+        printf("Usage: day_04_02 textfilename");
         return -1;
     }
 
@@ -42,8 +31,6 @@ int main(int argc, char* argv[]) {
     // Step 1: Build an array of dummy nodes
     
     int bingoLineNumber[5];
-    // bingo-row-col
-    // int bingo[256][5][5];
     bingoBoard game[256];
     int bingoCount = 0;
     int lineCount = 0;
@@ -62,7 +49,7 @@ int main(int argc, char* argv[]) {
                 &(game[bingoCount].board[lineCount][3]), 
                 &(game[bingoCount].board[lineCount][4])
             );
-            // printf("%d %d %d %d %d\n", bingo[lineCount][0], bingo[lineCount][1], bingo[lineCount][2], bingo[lineCount][3], bingo[lineCount][4]);
+            game[bingoCount].won = false;
             lineCount++;           
         }
     }
@@ -75,9 +62,8 @@ int main(int argc, char* argv[]) {
             for (i = 0; i < bingoCount; i++) {
                 // If there is a match, put zero in the value
                 updateBoard(number, bingo[i]);
-                // TODO: Complete this algorithm
-                // TODO: Need to record the last matched number
-                // TODO: Need to record the first won board id
+                check if the board is won;
+                is this the last board won?
             }
         }
     */
@@ -88,48 +74,30 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < bingoCount; i++) {
         // printf("Updating board %d\n", i);
         updateBoard(number, game[i].board);
-        /*
-        if (bingoWon(game[i].board)) {
-            printf("Board %d won!\n", i);
-            for (int row = 0; row < 5; row++) {
-                for (int col = 0; col < 5; col++) {
-                    printf("%d ", game[i].board[row][col]);
-                }
-                printf("\n");
-            }
-            printf("\n");
-        }
-        */
     }
 
+    int boardWon = 0;
     while (token != NULL) {
         token = strtok(NULL, ",");
         if (token != NULL) {
             number = atoi(token);
             for (int i = 0; i < bingoCount; i++) {
-                // printf("Updating board %d\n", i);
-                updateBoard(number, game[i].board);           
-                if (bingoWon(game[i].board)) {
-                    /*
-                    printf("Board %d won!\n", i);
-                    for (int row = 0; row < 5; row++) {
-                        for (int col = 0; col < 5; col++) {
-                            printf("%d ", game[i].board[row][col]);
+                if (!game[i].won) {
+                    updateBoard(number, game[i].board);           
+                    if (bingoWon(game[i].board)) {
+                        game[i].won = true;
+                        boardWon++;
+                        printf("Number %d board won: board %d\n", boardWon, i);
+                        if (boardWon == bingoCount) {
+                            printf("Board Score: %d\n", getScore(number, game[i].board));
+                            return 0;
                         }
-                        printf("\n");
                     }
-                    printf("\n");
-                    printf("Number to multiply: %d\n", number);
-                    */
-                    printf("Board Score: %d\n", getScore(number, game[i].board));
-                    return 0;
                 }
             }
         }
     }
-
     printf("\n");
-
     return 0;
 }
 
