@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": ["day_04_data.txt"],
+            "args": ["day_05_data.txt"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
