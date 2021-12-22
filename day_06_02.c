@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     // Final answer: 1757714216975
     // 6206821033*212+ 5617089148*23+ 5217223242*25+ 4726100874*21+ 4368232009*19
     long result = countFishes(0, 0, 0, 0, 0, 0, 1, 0, 0, 0);
-    printf("%d generation started with one %d is: %ld\n", GEN_MAX, start, result);
+    printf("%d generation started with one %d is: %ld\n", GEN_MAX, 5, result);
 
     return 0;
 }
